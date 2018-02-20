@@ -9,9 +9,9 @@ import Paper from 'material-ui/Paper'
 import Menu from 'material-ui/Menu'
 import MenuItem from 'material-ui/MenuItem'
 import WatchGameIcon from 'material-ui/svg-icons/image/remove-red-eye'
-import JoinGameIcon from 'material-ui/svg-icons/social/person-add'
-import PlayGameIcon from 'material-ui/svg-icons/hardware/videogame-asset'
-import WaitingIcon from 'material-ui/svg-icons/image/timelapse'
+// import JoinGameIcon from 'material-ui/svg-icons/social/person-add'
+// import PlayGameIcon from 'material-ui/svg-icons/hardware/videogame-asset'
+// import WaitingIcon from 'material-ui/svg-icons/image/timelapse'
 import './Lobby.css'
 
 class Lobby extends PureComponent {
@@ -20,7 +20,7 @@ class Lobby extends PureComponent {
     this.props.subscribeToWebsocket()
   }
 
-  goToGame = gameId => event => this.props.push(`/play/${gameId}`)
+  goToClass = classId => event => this.props.push(`/play/${classId}`)
 
 
   renderClass = (group, index) => {
@@ -32,7 +32,7 @@ class Lobby extends PureComponent {
     return (
       <MenuItem
         key={index}
-        onClick={this.goToGame(group._id)}
+        onClick={this.goToClass(group._id)}
         rightIcon={<ActionIcon />}
         primaryText={title} />
     )

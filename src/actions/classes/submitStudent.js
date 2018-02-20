@@ -9,11 +9,11 @@ import {
 
 const api = new API()
 
-export default (group) => {
+export default (groupId,name,picture) => {
   return (dispatch) => {
     dispatch({ type: APP_LOADING })
 
-    api.post(`/classes/${group._id}/students`, {})
+    api.post(`/classes/${groupId}/students`, {name,picture})
       .then(() => {
         dispatch({ type: APP_DONE_LOADING })
         dispatch({ type: LOAD_SUCCESS })

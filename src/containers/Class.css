@@ -1,0 +1,20 @@
+.student{
+  width:25%;
+  height: auto;
+  margin: 3%;
+}
+.profilePic{
+  width: 80%;
+  height: auto;
+}
+.negative{
+  background-color: red;
+}
+.positive{
+  background-color: green;
+
+}
+.neutral{
+  background-color: yellow;
+
+}
