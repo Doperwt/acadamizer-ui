@@ -24,6 +24,7 @@ class CreateGameButton extends PureComponent {
       <input type='date' value={Date.now.strf} />
 
         <RaisedButton
+          style={{ background:'blue',color:'yellow'}}
           label="Create Class"
           primary={true}
           // onClick=

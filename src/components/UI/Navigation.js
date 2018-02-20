@@ -8,6 +8,7 @@ import AppBar from 'material-ui/AppBar'
 import IconButton from 'material-ui/IconButton'
 import GameIcon from 'material-ui/svg-icons/hardware/videogame-asset'
 import FlatButton from 'material-ui/FlatButton'
+import './Navigation.css'
 
 const TITLE = 'Acadamizer'
 
@@ -36,6 +37,7 @@ class Navigation extends PureComponent {
     return (
       <AppBar
         title={TITLE}
+        style={{ background:'blue',color:'yellow'}}
         iconElementLeft={<IconButton onClick={this.goHome}><GameIcon /></IconButton>}
         iconElementRight={signedIn ?
           <FlatButton label="Sign out" onClick={this.signOut.bind(this)} /> :

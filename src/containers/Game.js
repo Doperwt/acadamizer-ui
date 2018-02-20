@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { fetchOneGame, fetchPlayers } from '../actions/classes/fetch'
+import { fetchOneClass, fetchStudents } from '../actions/classes/fetch'
 import doTurn from '../actions/classes/doTurn'
 import { connect as subscribeToWebsocket } from '../actions/websocket'
 import JoinGameDialog from '../components/classes/JoinGameDialog'
@@ -13,7 +13,7 @@ const playerShape = PropTypes.shape({
   name: PropTypes.string
 })
 
-class Game extends PureComponent {
+class Class extends PureComponent {
   static propTypes = {
     fetchOneGame: PropTypes.func.isRequired,
     fetchPlayers: PropTypes.func.isRequired,
@@ -100,7 +100,7 @@ const mapStateToProps = ({ currentUser, games }, { match }) => {
 
 export default connect(mapStateToProps, {
   subscribeToWebsocket,
-  fetchOneGame,
-  fetchPlayers,
+  fetchOneClass,
+  fetchStudents,
   doTurn
-})(Game)
+})(Class)

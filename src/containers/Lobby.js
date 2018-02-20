@@ -2,7 +2,7 @@
 import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
 import { push } from 'react-router-redux'
-import fetchGames, { fetchPlayers } from '../actions/classes/fetch'
+import fetchClasses, { fetchStudents } from '../actions/classes/fetch'
 import { connect as subscribeToWebsocket } from '../actions/websocket'
 import CreateGameButton from '../components/classes/CreateGameButton'
 import Paper from 'material-ui/Paper'
@@ -16,7 +16,7 @@ import './Lobby.css'
 
 class Lobby extends PureComponent {
   componentWillMount() {
-    this.props.fetchGames()
+    this.props.fetchClasses()
     this.props.subscribeToWebsocket()
   }
 
@@ -41,7 +41,7 @@ class Lobby extends PureComponent {
     let ActionIcon = this.isJoinable(game) ? JoinGameIcon : WatchGameIcon
     if (this.isPlayer(game)) ActionIcon = this.isPlayable(game) ? PlayGameIcon : WaitingIcon
 
-    if (!game.players[0].name) { this.props.fetchPlayers(game) }
+    if (!game.players[0].name) { this.props.fetchStudents(game) }
 
     const title = game.players.map(p => (p.name || null))
       .filter(n => !!n)
@@ -73,4 +73,4 @@ class Lobby extends PureComponent {
 
 const mapStateToProps = ({ classes, currentUser }) => ({ classes, currentUser })
 
-export default connect(mapStateToProps, { fetchGames, subscribeToWebsocket, fetchPlayers, push })(Lobby)
+export default connect(mapStateToProps, { fetchClasses, subscribeToWebsocket, fetchStudents, push })(Lobby)
