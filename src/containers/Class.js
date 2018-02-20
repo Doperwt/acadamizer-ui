@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { fetchOneClass, fetchStudents } from '../actions/classes/fetch'
+import { fetchOneGame, fetchPlayers } from '../actions/classes/fetch'
 import doTurn from '../actions/classes/doTurn'
 import { connect as subscribeToWebsocket } from '../actions/websocket'
 import JoinGameDialog from '../components/classes/JoinGameDialog'
@@ -13,45 +13,51 @@ const playerShape = PropTypes.shape({
   name: PropTypes.string
 })
 
-class Class extends PureComponent {
+class Game extends PureComponent {
   static propTypes = {
-    fetchOneClass: PropTypes.func.isRequired,
-    fetchStudents: PropTypes.func.isRequired,
+    fetchOneGame: PropTypes.func.isRequired,
+    fetchPlayers: PropTypes.func.isRequired,
     subscribeToWebsocket: PropTypes.func.isRequired,
-    group: PropTypes.shape({
+    game: PropTypes.shape({
       _id: PropTypes.string.isRequired,
-      students: PropTypes.arrayOf(playerShape).isRequired,
+      userId: PropTypes.string.isRequired,
+      winnerId: PropTypes.string,
+      players: PropTypes.arrayOf(playerShape).isRequired,
+      draw: PropTypes.bool,
       updatedAt: PropTypes.string.isRequired,
       createdAt: PropTypes.string.isRequired,
     }),
+    currentPlayer: playerShape,
+    isPlayer: PropTypes.bool,
+    isJoinable: PropTypes.bool,
   }
 
   componentWillMount() {
-    const { group, fetchOneClass, subscribeToWebsocket } = this.props
-    const { classId } = this.props.match.params
+    const { game, fetchOneGame, subscribeToWebsocket } = this.props
+    const { gameId } = this.props.match.params
 
-    if (!group) { fetchOneClass(classId) }
+    if (!game) { fetchOneGame(gameId) }
     subscribeToWebsocket()
   }
 
   componentWillReceiveProps(nextProps) {
-    const { group } = nextProps
+    const { game } = nextProps
 
-    if (group && !group.students[0].name) {
-      this.props.fetchStudents(group)
+    if (game && !game.players[0].name) {
+      this.props.fetchPlayers(game)
     }
   }
 
   doTurnWithGameId = (weapon) => () => {
-    return this.props.doTurn(weapon, this.props.group._id)
+    return this.props.doTurn(weapon, this.props.game._id)
   }
 
   render() {
-    const { group } = this.props
+    const { game } = this.props
 
-    if (!group) return null
+    if (!game) return null
 
-    const title = group.students.map(p => (p.name || null))
+    const title = game.players.map(p => (p.name || null))
       .filter(n => !!n)
       .join(' vs ')
 
@@ -75,22 +81,26 @@ class Class extends PureComponent {
           />
         </div>
 
-        <JoinGameDialog classId={group._id} />
+        <JoinGameDialog gameId={game._id} />
       </div>
     )
   }
 }
 
-const mapStateToProps = ({ currentUser, classes }, { match }) => {
-  const group = classes.filter((g) => (g._id === match.params.classId))[0]
+const mapStateToProps = ({ currentUser, games }, { match }) => {
+  const game = games.filter((g) => (g._id === match.params.gameId))[0]
+  const currentPlayer = game && game.players.filter((p) => (p.userId === currentUser._id))[0]
   return {
-    group,
+    currentPlayer,
+    game,
+    isPlayer: !!currentPlayer,
+    isJoinable: game && !currentPlayer && game.players.length < 2
   }
 }
 
 export default connect(mapStateToProps, {
   subscribeToWebsocket,
-  fetchOneClass,
-  fetchStudents,
+  fetchOneGame,
+  fetchPlayers,
   doTurn
-})(Class)
+})(Game)

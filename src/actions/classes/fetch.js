@@ -38,7 +38,7 @@ export default () => {
   }
 }
 
-export const fetchPlayers = (group) => {
+export const fetchStudents = (group) => {
   return dispatch => {
     dispatch({ type: APP_LOADING })
 
@@ -65,7 +65,7 @@ export const fetchPlayers = (group) => {
   }
 }
 
-export const fetchOneGame = (gameId) => {
+export const fetchOneClass = (gameId) => {
   return dispatch => {
     dispatch({ type: APP_LOADING })
 

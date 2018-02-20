@@ -2,9 +2,9 @@
 import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
 import { push } from 'react-router-redux'
-import fetchGames, { fetchPlayers } from '../actions/classes/fetch'
+import fetchClasses, { fetchStudents } from '../actions/classes/fetch'
 import { connect as subscribeToWebsocket } from '../actions/websocket'
-import CreateGameButton from '../components/classes/CreateGameButton'
+import CreateClassButton from '../components/classes/CreateClassButton'
 import Paper from 'material-ui/Paper'
 import Menu from 'material-ui/Menu'
 import MenuItem from 'material-ui/MenuItem'
@@ -16,41 +16,23 @@ import './Lobby.css'
 
 class Lobby extends PureComponent {
   componentWillMount() {
-    this.props.fetchGames()
+    this.props.fetchClasses()
     this.props.subscribeToWebsocket()
   }
 
   goToGame = gameId => event => this.props.push(`/play/${gameId}`)
 
-  isJoinable(game) {
-    return game.players.length < 2 &&
-      !this.isPlayer(game)
-  }
 
-  isPlayer(game) {
-    if (!this.props.currentUser) { return false }
-    return game.players.map(p => p.userId)
-      .indexOf(this.props.currentUser._id) >= 0
-  }
+  renderClass = (group, index) => {
+    let ActionIcon =  WatchGameIcon
+    // if (!group.students[0].name) { this.props.fetchStudents(group) }
 
-  isPlayable(game) {
-    return this.isPlayer(game) && game.players.length === 2
-  }
-
-  renderGame = (game, index) => {
-    let ActionIcon = this.isJoinable(game) ? JoinGameIcon : WatchGameIcon
-    if (this.isPlayer(game)) ActionIcon = this.isPlayable(game) ? PlayGameIcon : WaitingIcon
-
-    if (!game.players[0].name) { this.props.fetchPlayers(game) }
-
-    const title = game.players.map(p => (p.name || null))
-      .filter(n => !!n)
-      .join(' vs ')
+    const title = group.name
 
     return (
       <MenuItem
         key={index}
-        onClick={this.goToGame(game._id)}
+        onClick={this.goToGame(group._id)}
         rightIcon={<ActionIcon />}
         primaryText={title} />
     )
@@ -60,10 +42,10 @@ class Lobby extends PureComponent {
     return (
       <div className="Lobby">
         <h1>Classes overview</h1>
-        <CreateGameButton />
+        <CreateClassButton />
         <Paper className="paper">
           <Menu>
-            {this.props.classes.map(this.renderGame)}
+            {this.props.classes.map(this.renderClass)}
           </Menu>
         </Paper>
       </div>
@@ -73,4 +55,4 @@ class Lobby extends PureComponent {
 
 const mapStateToProps = ({ classes, currentUser }) => ({ classes, currentUser })
 
-export default connect(mapStateToProps, { fetchGames, subscribeToWebsocket, fetchPlayers, push })(Lobby)
+export default connect(mapStateToProps, { fetchClasses, subscribeToWebsocket, fetchStudents, push })(Lobby)
