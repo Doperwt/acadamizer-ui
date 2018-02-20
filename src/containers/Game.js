@@ -15,49 +15,43 @@ const playerShape = PropTypes.shape({
 
 class Class extends PureComponent {
   static propTypes = {
-    fetchOneGame: PropTypes.func.isRequired,
-    fetchPlayers: PropTypes.func.isRequired,
+    fetchOneClass: PropTypes.func.isRequired,
+    fetchStudents: PropTypes.func.isRequired,
     subscribeToWebsocket: PropTypes.func.isRequired,
-    game: PropTypes.shape({
+    group: PropTypes.shape({
       _id: PropTypes.string.isRequired,
-      userId: PropTypes.string.isRequired,
-      winnerId: PropTypes.string,
-      players: PropTypes.arrayOf(playerShape).isRequired,
-      draw: PropTypes.bool,
+      students: PropTypes.arrayOf(playerShape).isRequired,
       updatedAt: PropTypes.string.isRequired,
       createdAt: PropTypes.string.isRequired,
     }),
-    currentPlayer: playerShape,
-    isPlayer: PropTypes.bool,
-    isJoinable: PropTypes.bool,
   }
 
   componentWillMount() {
-    const { game, fetchOneGame, subscribeToWebsocket } = this.props
-    const { gameId } = this.props.match.params
+    const { group, fetchOneClass, subscribeToWebsocket } = this.props
+    const { classId } = this.props.match.params
 
-    if (!game) { fetchOneGame(gameId) }
+    if (!group) { fetchOneClass(classId) }
     subscribeToWebsocket()
   }
 
   componentWillReceiveProps(nextProps) {
-    const { game } = nextProps
+    const { group } = nextProps
 
-    if (game && !game.players[0].name) {
-      this.props.fetchPlayers(game)
+    if (group && !group.students[0].name) {
+      this.props.fetchStudents(group)
     }
   }
 
   doTurnWithGameId = (weapon) => () => {
-    return this.props.doTurn(weapon, this.props.game._id)
+    return this.props.doTurn(weapon, this.props.group._id)
   }
 
   render() {
-    const { game } = this.props
+    const { group } = this.props
 
-    if (!game) return null
+    if (!group) return null
 
-    const title = game.players.map(p => (p.name || null))
+    const title = group.students.map(p => (p.name || null))
       .filter(n => !!n)
       .join(' vs ')
 
@@ -81,20 +75,16 @@ class Class extends PureComponent {
           />
         </div>
 
-        <JoinGameDialog gameId={game._id} />
+        <JoinGameDialog classId={group._id} />
       </div>
     )
   }
 }
 
-const mapStateToProps = ({ currentUser, games }, { match }) => {
-  const game = games.filter((g) => (g._id === match.params.gameId))[0]
-  const currentPlayer = game && game.players.filter((p) => (p.userId === currentUser._id))[0]
+const mapStateToProps = ({ currentUser, classes }, { match }) => {
+  const group = classes.filter((g) => (g._id === match.params.classId))[0]
   return {
-    currentPlayer,
-    game,
-    isPlayer: !!currentPlayer,
-    isJoinable: game && !currentPlayer && game.players.length < 2
+    group,
   }
 }
 
