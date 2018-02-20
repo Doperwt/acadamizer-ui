@@ -1,106 +1,113 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { fetchOneGame, fetchPlayers } from '../actions/classes/fetch'
-import doTurn from '../actions/classes/doTurn'
+import { fetchOneClass, fetchStudents } from '../actions/classes/fetch'
 import { connect as subscribeToWebsocket } from '../actions/websocket'
-import JoinGameDialog from '../components/classes/JoinGameDialog'
-import TurnButton from '../components/classes/TurnButton'
+import AddStudent from '../components/classes/addStudent'
+import RaisedButton from 'material-ui/RaisedButton'
+import DeleteIcon from 'material-ui/svg-icons/action/delete-forever'
+import deleteClass from '../actions/classes/deleteClass'
+import {  push } from 'react-router-redux'
+import './Class.css'
+import Paper from 'material-ui/Paper'
+import ReviewDisplay from '../components/UI/ReviewDisplay'
+
 
 const playerShape = PropTypes.shape({
-  userId: PropTypes.string.isRequired,
-  symbol: PropTypes.string,
-  name: PropTypes.string
+  _id: PropTypes.string.isRequired,
+  picture: PropTypes.string,
+  name: PropTypes.string,
+  review: PropTypes.arrayOf(PropTypes.string),
 })
 
-class Game extends PureComponent {
+class Class extends PureComponent {
   static propTypes = {
-    fetchOneGame: PropTypes.func.isRequired,
-    fetchPlayers: PropTypes.func.isRequired,
+    fetchOneClass: PropTypes.func.isRequired,
+    fetchStudents: PropTypes.func.isRequired,
     subscribeToWebsocket: PropTypes.func.isRequired,
-    game: PropTypes.shape({
+    group: PropTypes.shape({
       _id: PropTypes.string.isRequired,
-      userId: PropTypes.string.isRequired,
-      winnerId: PropTypes.string,
-      players: PropTypes.arrayOf(playerShape).isRequired,
-      draw: PropTypes.bool,
+      students: PropTypes.arrayOf(playerShape).isRequired,
       updatedAt: PropTypes.string.isRequired,
       createdAt: PropTypes.string.isRequired,
     }),
-    currentPlayer: playerShape,
-    isPlayer: PropTypes.bool,
-    isJoinable: PropTypes.bool,
   }
 
-  componentWillMount() {
-    const { game, fetchOneGame, subscribeToWebsocket } = this.props
-    const { gameId } = this.props.match.params
 
-    if (!game) { fetchOneGame(gameId) }
+  componentWillMount() {
+
+    const { group, fetchOneClass, subscribeToWebsocket } = this.props
+    const { classId } = this.props.match.params
+    if (!group) { fetchOneClass(classId) }
     subscribeToWebsocket()
   }
 
   componentWillReceiveProps(nextProps) {
-    const { game } = nextProps
+    const { group } = nextProps
 
-    if (game && !game.players[0].name) {
-      this.props.fetchPlayers(game)
+    if (group && !group.students[0].name) {
+      this.props.fetchStudents(group)
     }
   }
 
-  doTurnWithGameId = (weapon) => () => {
-    return this.props.doTurn(weapon, this.props.game._id)
+  renderStudents(student, index){
+    const {name,picture,lastReview,_id} = student
+
+    return(
+      <div className='student' key={_id} >
+        <Paper>
+          <img src={picture} alt='face' className='profilePic'/>
+          <h4>{name}</h4>
+          <p className={lastReview}>{lastReview}</p>
+        </Paper>
+      </div>
+    )
   }
-
+  deleteClick(groupId,event){
+    console.log(groupId)
+    this.props.deleteClass(groupId)
+    this.props.push('/')
+  }
+  convertReviews(group){
+    return group.students.map(a => a.lastReview)
+  }
   render() {
-    const { game } = this.props
+    const { group } = this.props
+    console.log(group)
 
-    if (!game) return null
+    if (!group) return null
 
-    const title = game.players.map(p => (p.name || null))
-      .filter(n => !!n)
-      .join(' vs ')
+    const title = group.name
 
     return (
       <div style={{ display: 'flex', flexFlow: 'column wrap', alignItems: 'center' }} className="Game">
-        <h1>Pick Your Weapon</h1>
-        <p>{title}</p>
-
+        <h1>Overview for class {title}</h1>
+        <ReviewDisplay reviews={this.convertReviews(group)} />
         <div style={{ display: 'flex', alignItems: 'center', flexFlow: 'row wrap' }}>
-          <TurnButton
-            onClick={this.doTurnWithGameId('rock')}
-            weapon="rock"
-          />
-          <TurnButton
-            onClick={this.doTurnWithGameId('paper')}
-            weapon="paper"
-          />
-          <TurnButton
-            onClick={this.doTurnWithGameId('scissors')}
-            weapon="scissors"
-          />
+          {group.students.map(this.renderStudents)}
         </div>
-
-        <JoinGameDialog gameId={game._id} />
+        <AddStudent groupId={group._id} />
+        <RaisedButton
+          label="Delete Class"
+          primary={true}
+          onClick={this.deleteClick.bind(this,group._id)}
+          icon={<DeleteIcon />} />
       </div>
     )
   }
 }
 
-const mapStateToProps = ({ currentUser, games }, { match }) => {
-  const game = games.filter((g) => (g._id === match.params.gameId))[0]
-  const currentPlayer = game && game.players.filter((p) => (p.userId === currentUser._id))[0]
+const mapStateToProps = ({ currentUser, classes }, { match }) => {
+  const group = classes.filter((g) => (g._id === match.params.classId))[0]
   return {
-    currentPlayer,
-    game,
-    isPlayer: !!currentPlayer,
-    isJoinable: game && !currentPlayer && game.players.length < 2
+    group,
   }
 }
 
 export default connect(mapStateToProps, {
   subscribeToWebsocket,
-  fetchOneGame,
-  fetchPlayers,
-  doTurn
-})(Game)
+  fetchOneClass,
+  fetchStudents,
+  deleteClass,
+  push
+})(Class)

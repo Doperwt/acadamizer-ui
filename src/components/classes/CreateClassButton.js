@@ -40,7 +40,6 @@ class CreateClassButton extends PureComponent {
   }
   render() {
     if (!this.props.signedIn) return null
-    console.log(this.state)
     return (
       <div className="CreateGameButton"><form>
       <input type='field' placeholder='name' value={this.props.name} onChange={this.handleChangeName.bind(this)} />

@@ -6,9 +6,8 @@ import { push } from 'react-router-redux'
 import signOut from '../../actions/user/sign-out'
 import AppBar from 'material-ui/AppBar'
 import IconButton from 'material-ui/IconButton'
-import GameIcon from 'material-ui/svg-icons/hardware/videogame-asset'
+import GameIcon from 'material-ui/svg-icons/social/group'
 import FlatButton from 'material-ui/FlatButton'
-import './Navigation.css'
 
 const TITLE = 'Acadamizer'
 
