@@ -2,7 +2,9 @@ import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 
 class ReviewDisplay extends PureComponent {
-
+  static propTypes = {
+    reviews: PropTypes.arrayOf(PropTypes.string)
+  }
 
   percentageDisplay(review,total){
     if(review===0){return '0%'}
@@ -18,7 +20,6 @@ class ReviewDisplay extends PureComponent {
     var green = this.percentageDisplay(positive,reviews.length)
     var yellow = this.percentageDisplay(neutral,reviews.length)
     var red =  this.percentageDisplay(negative,reviews.length)
-    console.log(reviews)
 
     return(
       <div style={{ minWidth:"80%", minHeight:'30px'}}>
