@@ -40,7 +40,7 @@ class TurnButton extends PureComponent {
 
     return (
       <Paper style={buttonStyle} onClick={onClick}>
-        <FontAwesome name={this.icon()} />
+          <FontAwesome name={this.icon()} />
       </Paper>
     )
   }

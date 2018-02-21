@@ -1,4 +1,4 @@
-// src/reducers/games.js
+// src/reducers/classes.js
 import { FETCHED_CLASSES, FETCHED_ONE_CLASS } from '../actions/classes/fetch'
 import {
   CLASS_CREATED,
@@ -13,15 +13,15 @@ export default (state = [], { type, payload } = {}) => {
       return [ ...payload ]
 
     case FETCHED_ONE_CLASS :
-      const gameIds = state.map(g => g._id)
-      if (gameIds.indexOf(payload._id) < 0) {
+      const groupIds = state.map(g => g._id)
+      if (groupIds.indexOf(payload._id) < 0) {
         return [{ ...payload }].concat(state)
       }
-      return state.map((game) => {
-        if (game._id === payload._id) {
+      return state.map((group) => {
+        if (group._id === payload._id) {
           return { ...payload }
         }
-        return game
+        return group
       })
 
     case CLASS_CREATED :
@@ -29,23 +29,23 @@ export default (state = [], { type, payload } = {}) => {
       return [newGame].concat(state)
 
     case CLASS_UPDATED :
-      return state.map((game) => {
-        if (game._id === payload._id) {
+      return state.map((group) => {
+        if (group._id === payload._id) {
           return { ...payload }
         }
-        return game
+        return group
       })
 
     case CLASS_STUDENTS_UPDATED :
-      return state.map((game) => {
-        if (game._id === payload.game._id) {
-          return { ...payload.game, players: payload.players }
+      return state.map((group) => {
+        if (group._id === payload.group._id) {
+          return { ...payload.group, students: payload.students }
         }
-        return game
+        return group
       })
 
     case CLASS_REMOVED :
-        return state.filter((game) => (game._id !== payload._id))
+        return state.filter((group) => (group._id !== payload._id))
 
     default :
       return state

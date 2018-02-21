@@ -9,15 +9,22 @@ import DeleteIcon from 'material-ui/svg-icons/action/delete-forever'
 import deleteClass from '../actions/classes/deleteClass'
 import {  push } from 'react-router-redux'
 import './Class.css'
-import Paper from 'material-ui/Paper'
 import ReviewDisplay from '../components/UI/ReviewDisplay'
+import ShowStudent from '../components/classes/showStudent'
+import AskQuestion from '../components/classes/AskQuestion'
 
+
+const reviewShape = PropTypes.shape({
+  date: PropTypes.string.isRequired,
+  review: PropTypes.string.isRequired,
+  description: PropTypes.string
+})
 
 const playerShape = PropTypes.shape({
   _id: PropTypes.string.isRequired,
   picture: PropTypes.string,
   name: PropTypes.string,
-  review: PropTypes.arrayOf(PropTypes.string),
+  review: PropTypes.arrayOf(reviewShape).isRequired,
 })
 
 class Class extends PureComponent {
@@ -35,7 +42,6 @@ class Class extends PureComponent {
 
 
   componentWillMount() {
-
     const { group, fetchOneClass, subscribeToWebsocket } = this.props
     const { classId } = this.props.match.params
     if (!group) { fetchOneClass(classId) }
@@ -50,47 +56,47 @@ class Class extends PureComponent {
     }
   }
 
-  renderStudents(student, index){
-    const {name,picture,lastReview,_id} = student
 
+
+  renderStudents(student, index){
     return(
-      <div className='student' key={_id} >
-        <Paper>
-          <img src={picture} alt='face' className='profilePic'/>
-          <h4>{name}</h4>
-          <p className={lastReview}>{lastReview}</p>
-        </Paper>
-      </div>
+        <ShowStudent student={student} groupId={this._id} />
     )
   }
-  deleteClick(groupId,event){
-    console.log(groupId)
+
+  deleteClass(groupId,event){
+    console.log(this.props)
     this.props.deleteClass(groupId)
     this.props.push('/')
   }
   convertReviews(group){
     return group.students.map(a => a.lastReview)
   }
+  showDate(date){
+    return date.getDate()+'/'+date.getMonth()+1+'/'+date.getFullYear()
+  }
   render() {
     const { group } = this.props
-    console.log(group)
-
+    console.log(this.props)
+    const stuff = group
     if (!group) return null
 
     const title = group.name
 
     return (
-      <div style={{ display: 'flex', flexFlow: 'column wrap', alignItems: 'center' }} className="Game">
+      <div style={{ display: 'flex', flexFlow: 'column wrap', alignItems: 'center' }} className="Game" key={group._id}>
         <h1>Overview for class {title}</h1>
+        <h3>Class runs from {group.startDate} until {group.endDate}</h3>
         <ReviewDisplay reviews={this.convertReviews(group)} />
+        <AskQuestion students={group.students}/>
         <div style={{ display: 'flex', alignItems: 'center', flexFlow: 'row wrap' }}>
-          {group.students.map(this.renderStudents)}
+          {group.students.map(this.renderStudents.bind(stuff))}
         </div>
         <AddStudent groupId={group._id} />
         <RaisedButton
           label="Delete Class"
           primary={true}
-          onClick={this.deleteClick.bind(this,group._id)}
+          onClick={this.deleteClass.bind(this,group._id)}
           icon={<DeleteIcon />} />
       </div>
     )
