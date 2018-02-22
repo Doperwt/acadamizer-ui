@@ -24,7 +24,7 @@ const playerShape = PropTypes.shape({
   _id: PropTypes.string.isRequired,
   picture: PropTypes.string,
   name: PropTypes.string,
-  review: PropTypes.arrayOf(reviewShape).isRequired,
+  reviews: PropTypes.arrayOf(reviewShape).isRequired,
 })
 
 class Class extends PureComponent {
@@ -60,7 +60,7 @@ class Class extends PureComponent {
 
   renderStudents(student, index){
     return(
-        <ShowStudent student={student} groupId={this._id} />
+        <ShowStudent student={student} groupId={this._id} key={student._id}/>
     )
   }
 

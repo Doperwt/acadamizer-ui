@@ -47,6 +47,8 @@ export default (state = [], { type, payload } = {}) => {
     case CLASS_REMOVED :
         return state.filter((group) => (group._id !== payload._id))
 
+
+
     default :
       return state
 
