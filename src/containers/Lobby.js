@@ -20,7 +20,7 @@ class Lobby extends PureComponent {
     this.props.subscribeToWebsocket()
   }
 
-  goToClass = classId => event => this.props.push(`/goto/${classId}`)
+  goToClass = classId => event => this.props.push(`/class/${classId}`)
 
 
   renderClass = (group, index) => {
