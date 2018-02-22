@@ -1,4 +1,4 @@
-// src/actions/classes/join.js
+// src/actions/classes/submitStudent.js
 import API from '../../api/client'
 import {
   APP_LOADING,

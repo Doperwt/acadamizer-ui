@@ -1,3 +1,4 @@
+// src/actions/classes/updateStudent.js
 import API from '../../api/client'
 import {
   APP_LOADING,
@@ -8,11 +9,11 @@ import {
 
 const api = new API()
 
-export default (weapon, gameId) => {
+export default (groupId,studentId,update) => {
   return (dispatch) => {
     dispatch({ type: APP_LOADING })
 
-    api.patch(`/classes/${gameId}`, { move: weapon })
+    api.put(`/classes/${groupId}/students/${studentId}`, {update})
       .then(() => {
         dispatch({ type: APP_DONE_LOADING })
         dispatch({ type: LOAD_SUCCESS })

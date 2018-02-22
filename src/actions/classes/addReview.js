@@ -1,4 +1,4 @@
-// src/actions/classes/removeStudent.js
+// src/actions/classes/addReview.js
 import API from '../../api/client'
 import {
   APP_LOADING,
@@ -9,11 +9,11 @@ import {
 
 const api = new API()
 
-export default (groupId,studentId) => {
-  return (dispatch) => {
+export default (groupId,studentId,update) => {
+  return dispatch => {
     dispatch({ type: APP_LOADING })
-
-    api.delete(`/classes/${groupId}/students`, { studentId})
+    const {date,review,description} = update
+    api.patch(`/classes/${groupId}/students/${studentId}`, {date:date,review:review,description:description})
       .then(() => {
         dispatch({ type: APP_DONE_LOADING })
         dispatch({ type: LOAD_SUCCESS })

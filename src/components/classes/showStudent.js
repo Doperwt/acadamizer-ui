@@ -16,7 +16,7 @@ class ShowStudent extends PureComponent {
     this.props.RemoveStudent(groupId,studentId)
   }
 
-  goToStudent = (classId,_id) => event => this.props.push(`/goto/${classId}/student/${_id}`)
+  goToStudent = (classId,_id) => event => this.props.push(`/goto/${classId}/students/${_id}`)
 
   render(){
     const {name,picture,lastReview,_id} = this.props.student

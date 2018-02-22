@@ -12,7 +12,7 @@ import './Class.css'
 import ReviewDisplay from '../components/UI/ReviewDisplay'
 import ShowStudent from '../components/classes/showStudent'
 import AskQuestion from '../components/classes/AskQuestion'
-
+import moment from 'moment'
 
 const reviewShape = PropTypes.shape({
   date: PropTypes.string.isRequired,
@@ -56,8 +56,6 @@ class Class extends PureComponent {
     }
   }
 
-
-
   renderStudents(student, index){
     return(
         <ShowStudent student={student} groupId={this._id} key={student._id}/>
@@ -80,19 +78,20 @@ class Class extends PureComponent {
     console.log(this.props)
     const stuff = group
     if (!group) return null
-
+    const startDate = moment(group.startDate.toString(),'YYYY-MM-DDTHH:mm:ss.SSSZ').format('DD-MM-YYYY').toString()
+    const endDate = moment(group.endDate.toString(),'YYYY-MM-DDTHH:mm:ss.SSSZ').format('DD-MM-YYYY').toString()
     const title = group.name
 
     return (
       <div style={{ display: 'flex', flexFlow: 'column wrap', alignItems: 'center' }} className="Game" key={group._id}>
         <h1>Overview for class {title}</h1>
-        <h3>Class runs from {group.startDate} until {group.endDate}</h3>
+        <h3>Class runs from {startDate} until {endDate}</h3>
         <ReviewDisplay reviews={this.convertReviews(group)} />
         <AskQuestion students={group.students}/>
         <div style={{ display: 'flex', alignItems: 'center', flexFlow: 'row wrap' }}>
           {group.students.map(this.renderStudents.bind(stuff))}
         </div>
-        <AddStudent groupId={group._id} />
+        <AddStudent groupId={group._id} /><br/>
         <RaisedButton
           label="Delete Class"
           primary={true}

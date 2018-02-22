@@ -5,6 +5,7 @@ import { connect } from 'react-redux'
 import RaisedButton from 'material-ui/RaisedButton'
 import AddIcon from 'material-ui/svg-icons/social/person-add'
 import submitStudent from '../../actions/classes/submitStudent'
+import Paper from 'material-ui/Paper'
 
 class addStudent extends PureComponent {
   static propTypes = {
@@ -32,16 +33,14 @@ class addStudent extends PureComponent {
   render() {
     if (!this.props.signedIn) return null
     return (
-      <div className="addStudent"><form>
-      <input type='field' placeholder='name' value={this.props.name} onChange={this.handleChangeName.bind(this)} />
-      <input type='field' placeholder='add picture' value={this.props.picture} onChange={this.handleChangePicture.bind(this)}/>
-
+      <div className="addStudent"><Paper>
+      <input type='field' placeholder='name' value={this.props.name} onChange={this.handleChangeName.bind(this)} /><br/>
+      <input type='field' placeholder='add picture' value={this.props.picture} onChange={this.handleChangePicture.bind(this)}/><br/>
         <RaisedButton
-          style={{ background:'blue',color:'yellow'}}
           label="Add student"
           primary={true}
           onClick={this.clickButton.bind(this)}
-          icon={<AddIcon />} /></form>
+          icon={<AddIcon />} /></Paper>
       </div>
     )
   }

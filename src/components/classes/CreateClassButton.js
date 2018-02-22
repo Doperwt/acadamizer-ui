@@ -9,7 +9,6 @@ import createClass from '../../actions/classes/create'
 class CreateClassButton extends PureComponent {
   static propTypes = {
     signedIn: PropTypes.bool,
-    RemoveStudent: PropTypes.func.isRequired,
   }
 
   constructor(props) {

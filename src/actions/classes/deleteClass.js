@@ -1,4 +1,4 @@
-// src/actions/games/create.js
+// src/actions/classes/deleteClass.js
 import API from '../../api/client'
 import {
   APP_LOADING,
