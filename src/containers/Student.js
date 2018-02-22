@@ -14,6 +14,7 @@ import ReviewDisplay from '../components/UI/ReviewDisplay'
 import RaisedButton from 'material-ui/RaisedButton'
 import moment from 'moment'
 import QuestionIcon from 'material-ui/svg-icons/action/assignment-ind'
+import Paper from 'material-ui/Paper'
 
 
 const reviewShape = PropTypes.shape({
@@ -61,6 +62,7 @@ class Student extends PureComponent{
   }
   setDate(event){
     this.setState({date:event.target.value})
+
   }
   buttonColor(color,type){
     if(this.state.reviewType===type){return color}
@@ -100,6 +102,7 @@ class Student extends PureComponent{
 
     return(
       <div>
+      <Paper>
         <h1>{student.name}</h1>
         <ReviewDisplay reviews={reviews} />
         <img src={student.picture} className='questionPic' />
@@ -119,13 +122,14 @@ class Student extends PureComponent{
           icon={<QuestionIcon />} />
         </form>
         {student.reviews.map(this.renderReviews)}
+        </Paper>
       </div>
     )
   }
 }
 
 const mapStateToProps = ({ currentUser, classes }, { match }) => {
-  console.log(match)
+  console.log(this)
   const group = classes.filter((g) => (g._id === match.params.classId))[0]
   const student = group.students.filter(s => s._id === match.params.studentId)[0]
   return {
