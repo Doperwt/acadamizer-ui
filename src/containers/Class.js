@@ -79,7 +79,7 @@ class Class extends PureComponent {
     const stuff = group
     if (!group) return null
     const startDate = moment(group.startDate.toString(),'YYYY-MM-DDTHH:mm:ss.SSSZ').format('DD-MM-YYYY').toString()
-    const endDate = moment(group.endDate.toString(),'YYYY-MM-DDTHH:mm:ss.SSSZ').format('DD-MM-YYYY').toString()
+      const endDate = moment(group.endDate.toString(),'YYYY-MM-DDTHH:mm:ss.SSSZ').format('DD-MM-YYYY').toString()
     const title = group.name
 
     return (

@@ -15,7 +15,7 @@ import RaisedButton from 'material-ui/RaisedButton'
 import moment from 'moment'
 import QuestionIcon from 'material-ui/svg-icons/action/assignment-ind'
 import Paper from 'material-ui/Paper'
-
+import './Student.css'
 
 const reviewShape = PropTypes.shape({
   date: PropTypes.string.isRequired,
@@ -44,15 +44,10 @@ class Student extends PureComponent{
     const student = group.students.filter(s => s._id === studentId)[0]
     subscribeToWebsocket()
   }
-  componentWillReceiveProps(nextProps) {
-    const { student } = nextProps
-    console.log(nextProps)
-    // if (student && !student.name) {
-    //   // this.props.fetchStudents(group)
-    //
-    // }
-  }
-  goToClass = (classId) => event => this.props.push(`/goto/${classId}`)
+  // componentWillReceiveProps(nextProps) {
+  //   const { student } = nextProps
+  // }
+  goToClass = (classId) => event => this.props.push(`/class/${classId}`)
 
   setReview(type){
     this.setState({reviewType:type})
@@ -84,7 +79,8 @@ class Student extends PureComponent{
       </div>
     )
   }
-  addReview(studentId,groupId,event){
+  addReview(studentId,groupId,route,event){
+    const students = this.props.group.students
     let update = {
       description:this.state.comment,
       date:this.state.date,
@@ -92,7 +88,13 @@ class Student extends PureComponent{
     }
     console.log(update)
     this.props.AddReview(groupId,studentId,update)
-    this.goToClass(groupId)
+    let currentIndex =  students.map(s => s._id.toString()).indexOf(studentId.toString())
+    let nextId
+    if(currentIndex >= (students.length)-1 ){ route=1}
+    else { nextId = students[(currentIndex+1)]._id}
+    if(route===1){this.props.push(`/class/${groupId}`)}
+
+    if(route===0){this.props.push(`/class/${groupId}/students/${nextId}`)}
   }
 
   render(){
@@ -101,9 +103,14 @@ class Student extends PureComponent{
     const reviews = student.reviews.map(r => r.review)
 
     return(
-      <div>
+      <div className='show'>
       <Paper>
         <h1>{student.name}</h1>
+        <RaisedButton
+          label="Back to class"
+          primary={false}
+          onClick={this.goToClass(group._id)}
+          icon={<QuestionIcon />} />
         <ReviewDisplay reviews={reviews} />
         <img src={student.picture} className='questionPic' />
         {this.showButtons()}
@@ -113,12 +120,12 @@ class Student extends PureComponent{
         <RaisedButton
           label="Save & close"
           primary={true}
-          onClick={this.addReview.bind(this,student._id,group._id)}
+          onClick={this.addReview.bind(this,student._id,group._id,1)}
           icon={<QuestionIcon />} /><br/>
         <RaisedButton
           label="Save & next"
           primary={false}
-          onClick={this.addReview.bind(this,student._id,group._id)}
+          onClick={this.addReview.bind(this,student._id,group._id,0)}
           icon={<QuestionIcon />} />
         </form>
         {student.reviews.map(this.renderReviews)}
