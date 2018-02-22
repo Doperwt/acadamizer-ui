@@ -12,12 +12,10 @@ class AskQuestion extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {selectedStudent: ''};
-
   }
 
   whatType(){
     let random = Math.floor(Math.random() *100)+1
-    console.log(random)
     if(random < 49 ){ return 'negative'}
     if(random >= 49 && random <= 82){ return 'neutral'}
     return 'positive'
@@ -28,8 +26,13 @@ class AskQuestion extends PureComponent {
   }
 
   clickButton(students,event){
-    let type = this.whatType()
-    let selectedStudents = students.filter(s => s.lastReview === type)
+    let i = 0
+    let selectedStudents
+    while(i ===0){
+      let type = this.whatType()
+      selectedStudents = students.filter(s => s.lastReview === type)
+      i=selectedStudents.length
+    }
     let student =  selectedStudents[this.randomStudent(selectedStudents.length)]
     this.setState({selectedStudent: student})
   }
@@ -38,15 +41,16 @@ class AskQuestion extends PureComponent {
     const students = this.props.students
     return (
       <div className="AskQuestion">
-        <RaisedButton
-          label="Ask a Question"
-          primary={true}
-          onClick={this.clickButton.bind(this,students)}
-          icon={<QuestionIcon />} />
-          <Paper>
+        <Paper>
+          <RaisedButton
+            label="Ask a Question"
+            primary={true}
+            onClick={this.clickButton.bind(this,students)}
+            icon={<QuestionIcon />} />
+          <br/>
           <img src={this.state.selectedStudent.picture} className='questionPic' />
           <p className={this.state.selectedStudent.lastReview}> {this.state.selectedStudent.name}</p>
-          </Paper>
+        </Paper>
       </div>
     )
   }

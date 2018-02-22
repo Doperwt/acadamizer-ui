@@ -16,7 +16,7 @@ export default class Routes extends Component {
         <Route exact path="/" component={Lobby} />
         <Route exact path="/goto/:classId" component={Class} />
         <Route path="/sign-in" component={SignIn} />
-        <Route exact path="/goto/:classId/student/:studentId" component={Student} />
+        <Route path="/goto/:classId/students/:studentId" component={Student} />
       </div>
     )
   }
