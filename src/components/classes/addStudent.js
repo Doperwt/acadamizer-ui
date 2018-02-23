@@ -33,11 +33,11 @@ class addStudent extends PureComponent {
   render() {
     if (!this.props.signedIn) return null
     return (
-      <div className="addStudent"><Paper>
+      <div className='addStudent'><Paper>
       <input type='field' placeholder='name' value={this.props.name} onChange={this.handleChangeName.bind(this)} /><br/>
       <input type='field' placeholder='add picture' value={this.props.picture} onChange={this.handleChangePicture.bind(this)}/><br/>
         <RaisedButton
-          label="Add student"
+          label='Add student'
           primary={true}
           onClick={this.clickButton.bind(this)}
           icon={<AddIcon />} /></Paper>

@@ -23,13 +23,13 @@ class JoinGameDialog extends PureComponent {
     if (isPlayer) return null
 
     const actions = [
-      <Link to="/">
+      <Link to='/'>
         <FlatButton
-          label="No Thanks"
+          label='No Thanks'
           primary={true} />
       </Link>,
       <RaisedButton
-        label="Join Game"
+        label='Join Game'
         primary={true}
         keyboardFocused={true}
         onClick={this.joinGame}
@@ -39,7 +39,7 @@ class JoinGameDialog extends PureComponent {
     return (
       <div>
         <Dialog
-          title="Join Game"
+          title='Join Game'
           actions={actions}
           modal={false}
           open={open}

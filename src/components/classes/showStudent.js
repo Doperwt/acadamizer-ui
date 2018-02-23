@@ -28,7 +28,7 @@ class ShowStudent extends PureComponent {
           <h4>{name}</h4>
           <p className={lastReview}>{lastReview}</p>
           <RaisedButton
-            label="Remove"
+            label='Remove'
             primary={false}
             onClick={this.removeStudent.bind(this,_id,groupId)}
             icon={<DeleteIcon />} />

@@ -134,26 +134,26 @@ export class SignUp extends PureComponent {
   render() {
     return (
       <Paper style={ dialogStyle }>
-        <Title content="Sign Up" level={2} />
+        <Title content='Sign Up' level={2} />
 
         <form onSubmit={this.submitForm.bind(this)}>
-          <div className="input">
-            <TextField ref="name" type="text" hintText="Your name"
+          <div className='input'>
+            <TextField ref='name' type='text' hintText='Your name'
               onChange={this.validateName.bind(this)}
               errorText={ this.state.nameError} />
           </div>
-          <div className="input">
-            <TextField ref="email" type="email" hintText="Email address"
+          <div className='input'>
+            <TextField ref='email' type='email' hintText='Email address'
               onChange={this.validateEmail.bind(this)}
               errorText={ this.state.emailError} />
           </div>
-          <div className="input">
-            <TextField ref="password" type="password" hintText="Password"
+          <div className='input'>
+            <TextField ref='password' type='password' hintText='Password'
               onChange={this.validatePassword.bind(this)}
               errorText={ this.state.passwordError} />
           </div>
-          <div className="input">
-            <TextField ref="passwordConfirmation" type="password" hintText="Repeat Password"
+          <div className='input'>
+            <TextField ref='passwordConfirmation' type='password' hintText='Repeat Password'
               onKeyUp={this.validatePasswordConfirmation.bind(this)}
               onChange={this.validatePasswordConfirmation.bind(this)}
               errorText={ this.state.passwordConfirmationError} />
@@ -161,11 +161,11 @@ export class SignUp extends PureComponent {
         </form>
         <FlatButton
           onClick={ this.signIn.bind(this) }
-          label="Sign in" />
+          label='Sign in' />
         <RaisedButton
           style={ buttonStyle }
           onClick={ this.submitForm.bind(this) }
-          label="Sign up"
+          label='Sign up'
           primary={true} />
       </Paper>
     )

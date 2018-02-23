@@ -40,10 +40,10 @@ class AskQuestion extends PureComponent {
   render() {
     const students = this.props.students
     return (
-      <div className="AskQuestion">
+      <div className='AskQuestion'>
         <Paper>
           <RaisedButton
-            label="Ask a Question"
+            label='Ask a Question'
             primary={true}
             onClick={this.clickButton.bind(this,students)}
             icon={<QuestionIcon />} />

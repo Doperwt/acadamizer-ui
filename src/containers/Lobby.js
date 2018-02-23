@@ -26,9 +26,7 @@ class Lobby extends PureComponent {
   renderClass = (group, index) => {
     let ActionIcon =  WatchGameIcon
     // if (!group.students[0].name) { this.props.fetchStudents(group) }
-
     const title = group.name
-
     return (
       <MenuItem
         key={index}
@@ -40,10 +38,10 @@ class Lobby extends PureComponent {
 
   render() {
     return (
-      <div className="Lobby">
+      <div className='Lobby'>
         <h1>Classes overview</h1>
         <CreateClassButton />
-        <Paper className="paper">
+        <Paper className='paper'>
           <Menu>
             {this.props.classes.map(this.renderClass)}
           </Menu>

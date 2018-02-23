@@ -61,7 +61,7 @@ class Student extends PureComponent{
   }
   buttonColor(color,type){
     if(this.state.reviewType===type){return color}
-    return "grey"
+    return 'grey'
   }
   showButtons(){
     return(
@@ -107,7 +107,7 @@ class Student extends PureComponent{
       <Paper>
         <h1>{student.name}</h1>
         <RaisedButton
-          label="Back to class"
+          label='Back to class'
           primary={false}
           onClick={this.goToClass(group._id)}
           icon={<QuestionIcon />} />
@@ -118,12 +118,12 @@ class Student extends PureComponent{
         <input type='field' placeholder='comment' value={this.props.comment} onChange={this.setDescription.bind(this)} /><br/>
         <input type='date' value={this.state.date.toString()} onChange={this.setDate.bind(this)}/><br/>
         <RaisedButton
-          label="Save & close"
+          label='Save & close'
           primary={true}
           onClick={this.addReview.bind(this,student._id,group._id,1)}
           icon={<QuestionIcon />} /><br/>
         <RaisedButton
-          label="Save & next"
+          label='Save & next'
           primary={false}
           onClick={this.addReview.bind(this,student._id,group._id,0)}
           icon={<QuestionIcon />} />

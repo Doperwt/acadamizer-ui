@@ -38,8 +38,8 @@ class Navigation extends PureComponent {
         title={TITLE}
         iconElementLeft={<IconButton onClick={this.goHome}><GameIcon /></IconButton>}
         iconElementRight={signedIn ?
-          <FlatButton label="Sign out" onClick={this.signOut.bind(this)} /> :
-          <FlatButton label="Sign In" onClick={this.signIn} />
+          <FlatButton label='Sign out' onClick={this.signOut.bind(this)} /> :
+          <FlatButton label='Sign In' onClick={this.signIn} />
         }
       />
     )

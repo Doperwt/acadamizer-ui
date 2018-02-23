@@ -70,9 +70,7 @@ class Class extends PureComponent {
   convertReviews(group){
     return group.students.map(a => a.lastReview)
   }
-  showDate(date){
-    return date.getDate()+'/'+date.getMonth()+1+'/'+date.getFullYear()
-  }
+
   render() {
     const { group } = this.props
     console.log(this.props)
@@ -83,7 +81,7 @@ class Class extends PureComponent {
     const title = group.name
 
     return (
-      <div style={{ display: 'flex', flexFlow: 'column wrap', alignItems: 'center' }} className="Game" key={group._id}>
+      <div style={{ display: 'flex', flexFlow: 'column wrap', alignItems: 'center' }} className='Game' key={group._id}>
         <h1>Overview for class {title}</h1>
         <h3>Class runs from {startDate} until {endDate}</h3>
         <ReviewDisplay reviews={this.convertReviews(group)} />
@@ -93,7 +91,7 @@ class Class extends PureComponent {
         </div>
         <AddStudent groupId={group._id} /><br/>
         <RaisedButton
-          label="Delete Class"
+          label='Delete Class'
           primary={true}
           onClick={this.deleteClass.bind(this,group._id)}
           icon={<DeleteIcon />} />

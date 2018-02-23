@@ -22,7 +22,7 @@ class ReviewDisplay extends PureComponent {
     var red =  this.percentageDisplay(negative,reviews.length)
 
     return(
-      <div style={{ minWidth:"80%", minHeight:'30px'}}>
+      <div style={{ minWidth:'80%', minHeight:'30px'}}>
         <div style={{backgroundColor:'green', minWidth:green, minHeight:'30px', float:'left'}} ></div>
         <div style={{backgroundColor:'yellow', minWidth:yellow, minHeight:'30px', float:'left'}}></div>
         <div style={{backgroundColor:'red',minWidth:red, minHeight:'30px', float:'left'}}></div>

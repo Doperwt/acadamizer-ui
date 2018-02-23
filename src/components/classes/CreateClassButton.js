@@ -44,14 +44,14 @@ class CreateClassButton extends PureComponent {
   render() {
     if (!this.props.signedIn) return null
     return (
-      <div className="CreateGameButton"><form>
+      <div className='CreateGameButton'><form>
       <p>Batch number:</p><input type='number' placeholder='number' value={this.props.name} onChange={this.handleChangeName.bind(this)} />
       <p>start date:</p><input type='date' value={this.props.start} onChange={this.handleChangeStart.bind(this)}/>
       <p>end date:</p><input type='date' value={this.props.end} onChange={this.handleChangeEnd.bind(this)}/>
-
+      <br/>
         <RaisedButton
           style={{ background:'blue',color:'yellow'}}
-          label="Create Class"
+          label='Create Class'
           primary={true}
           onClick={this.clickButton.bind(this)}
           icon={<StarIcon />} /></form>
