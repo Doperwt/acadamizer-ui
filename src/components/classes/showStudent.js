@@ -10,6 +10,8 @@ import {  push } from 'react-router-redux'
 class ShowStudent extends PureComponent {
   static propTypes = {
     signedIn: PropTypes.bool,
+    RemoveStudent: PropTypes.func.isRequired
+  
   }
 
   removeStudent(studentId,groupId,event){

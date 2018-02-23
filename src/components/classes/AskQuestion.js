@@ -25,7 +25,7 @@ class AskQuestion extends PureComponent {
     return Math.floor(Math.random() *length)
   }
 
-  clickButton(students,event){
+  clickButton(students){
     let i = 0
     let selectedStudents
     while(i ===0){

@@ -77,6 +77,7 @@ class Student extends PureComponent{
       </div>
     )
   }
+
   addReview(studentId,groupId,route,event){
     const students = this.props.group.students
     let update = {
@@ -84,15 +85,25 @@ class Student extends PureComponent{
       date:this.state.date,
       review:this.state.reviewType
     }
-    console.log(update)
-    this.props.AddReview(groupId,studentId,update)
     let currentIndex =  students.map(s => s._id.toString()).indexOf(studentId.toString())
     let nextId
-    if(currentIndex >= (students.length)-1 ){ route=1}
-    else { nextId = students[(currentIndex+1)]._id}
-    if(route===1){this.props.push(`/class/${groupId}`)}
+    console.log(update)
+    if((update.review!=='positive') && !(update.description==='')){
+      this.props.AddReview(groupId,studentId,update)
+      if(currentIndex >= (students.length)-1 ){ route=1}
+      else { nextId = students[(currentIndex+1)]._id}
+      if(route===1){this.props.push(`/class/${groupId}`)}
+      if(route===0){this.props.push(`/class/${groupId}/students/${nextId}`)}
+    }
+    else if((update.review==='positive')){
+      this.props.AddReview(groupId,studentId,update)
+      if(currentIndex >= (students.length)-1 ){ route=1}
+      else { nextId = students[(currentIndex+1)]._id}
+      if(route===1){this.props.push(`/class/${groupId}`)}
+      if(route===0){this.props.push(`/class/${groupId}/students/${nextId}`)}
+    }
+    else { alert('for reviews that arent positive you need to fill in a description')}
 
-    if(route===0){this.props.push(`/class/${groupId}/students/${nextId}`)}
   }
 
   render(){
