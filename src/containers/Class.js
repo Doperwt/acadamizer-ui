@@ -20,7 +20,7 @@ const reviewShape = PropTypes.shape({
   description: PropTypes.string
 })
 
-const playerShape = PropTypes.shape({
+const studentShape = PropTypes.shape({
   _id: PropTypes.string.isRequired,
   picture: PropTypes.string,
   name: PropTypes.string,
@@ -34,7 +34,7 @@ class Class extends PureComponent {
     subscribeToWebsocket: PropTypes.func.isRequired,
     group: PropTypes.shape({
       _id: PropTypes.string.isRequired,
-      students: PropTypes.arrayOf(playerShape).isRequired,
+      students: PropTypes.arrayOf(studentShape).isRequired,
       updatedAt: PropTypes.string.isRequired,
       createdAt: PropTypes.string.isRequired,
     }),
