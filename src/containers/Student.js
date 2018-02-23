@@ -38,15 +38,13 @@ class Student extends PureComponent{
   componentWillMount() {
     console.log(this.props.match)
     const {  group, fetchOneClass, subscribeToWebsocket } = this.props
-    const { classId,studentId } = this.props.match.params
+    const { classId } = this.props.match.params
     if (!group) { fetchOneClass(classId) }
     console.log(this.props)
-    const student = group.students.filter(s => s._id === studentId)[0]
+    // const student = group.students.filter(s => s._id === studentId)[0]
     subscribeToWebsocket()
   }
-  // componentWillReceiveProps(nextProps) {
-  //   const { student } = nextProps
-  // }
+
   goToClass = (classId) => event => this.props.push(`/class/${classId}`)
 
   setReview(type){
@@ -75,7 +73,7 @@ class Student extends PureComponent{
   renderReviews(review,index){
     return(
       <div key={review._id}>
-        <p>{review.description} on date {review.date}</p>
+        <p>{review.review} review: {review.description} on date {review.date}</p>
       </div>
     )
   }
@@ -112,7 +110,7 @@ class Student extends PureComponent{
           onClick={this.goToClass(group._id)}
           icon={<QuestionIcon />} />
         <ReviewDisplay reviews={reviews} />
-        <img src={student.picture} className='questionPic' />
+        <img src={student.picture} className='questionPic' alt='face'/>
         {this.showButtons()}
         <form>
         <input type='field' placeholder='comment' value={this.props.comment} onChange={this.setDescription.bind(this)} /><br/>
